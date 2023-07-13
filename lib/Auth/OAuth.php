@@ -182,7 +182,7 @@ class OAuth extends AbstractAuth
     {
         //Check for existing access token
         if (!empty($this->_request_token_url)) {
-            if (strlen($this->_access_token) > 0 && strlen($this->_access_token_secret) > 0) {
+            if (!empty($this->_access_token) && !empty($this->_access_token_secret)) {
                 return true;
             }
         }
@@ -192,7 +192,7 @@ class OAuth extends AbstractAuth
             return false;
         }
 
-        if (strlen($this->_access_token) > 0) {
+        if (!empty($this->_access_token)) {
             return true;
         }
 
@@ -373,7 +373,7 @@ class OAuth extends AbstractAuth
         if (!empty($this->_expires) && $this->_expires < time()) {
             $this->log('access token expired so reauthorize');
 
-            if (strlen($this->_refresh_token) > 0) {
+            if (!empty($this->_refresh_token)) {
                 //use a refresh token to get a new token
                 return $this->requestAccessToken();
             }
@@ -385,14 +385,14 @@ class OAuth extends AbstractAuth
         }
 
         //Check for existing access token
-        if (strlen($this->_access_token) > 0) {
+        if (!empty($this->_access_token)) {
             $this->log('has access token');
 
             return true;
         }
 
         //Reauthorize if no token was found
-        if (0 == strlen($this->_access_token)) {
+        if (empty($this->_access_token)) {
             $this->log('access token empty so authorize');
 
             //OAuth flows
@@ -522,7 +522,7 @@ class OAuth extends AbstractAuth
      */
     protected function isOauth1()
     {
-        return strlen($this->_request_token_url) > 0;
+        return !empty($this->_request_token_url);
     }
 
     /**
@@ -634,7 +634,7 @@ class OAuth extends AbstractAuth
                 $parameters['code'] = $_GET['code'];
             }
 
-            if (strlen($this->_refresh_token) > 0) {
+            if (!empty($this->_refresh_token)) {
                 $this->log('Using refresh token');
                 $parameters['grant_type']    = 'refresh_token';
                 $parameters['refresh_token'] = $this->_refresh_token;
@@ -883,7 +883,7 @@ class OAuth extends AbstractAuth
      */
     private function getCompositeKey()
     {
-        if (isset($this->_access_token_secret) && strlen($this->_access_token_secret) > 0) {
+        if (isset($this->_access_token_secret) && !empty($this->_access_token_secret)) {
             $composite_key = $this->encode($this->_client_secret).'&'.$this->encode($this->_access_token_secret);
         } elseif (isset($_SESSION['oauth']['token_secret'])) {
             $composite_key = $this->encode($this->_client_secret).'&'.$this->encode($_SESSION['oauth']['token_secret']);

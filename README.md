@@ -5,6 +5,11 @@
 
 # Using the Mautic API Library
 
+## Fork information
+This is a fork of [mautic/api-library](https://github.com/mautic/api-library) v3.1.0 to fix and backport few changes for PHP 8.
+It will allow to run [mautic/mautic-typo3](https://github.com/mautic/mautic-typo3/) on TYPO3 v11 and PHP 8 systems already,
+until an official PHP 8 ready release of mautic/api-library will come with the release of Mautic 5.
+
 ## Requirements
 * PHP 7.2 or newer
 * cURL support
@@ -31,7 +36,7 @@ to choose what method should be used by your code.
 <?php
 
 // Bootup the Composer autoloader
-include __DIR__ . '/vendor/autoload.php';  
+include __DIR__ . '/vendor/autoload.php';
 
 use Mautic\Auth\ApiAuth;
 
@@ -97,7 +102,7 @@ Here is the BasicAuth version of the code above.
 <?php
 
 // Bootup the Composer autoloader
-include __DIR__ . '/vendor/autoload.php';  
+include __DIR__ . '/vendor/autoload.php';
 
 use Mautic\Auth\ApiAuth;
 
@@ -105,7 +110,7 @@ session_start();
 
 // ApiAuth->newAuth() will accept an array of Auth settings
 $settings = [
-    'userName'   => '',             // Create a new user       
+    'userName'   => '',             // Create a new user
     'password'   => '',             // Make it a secure password
 ];
 
@@ -252,7 +257,7 @@ If you want to set up your local environment manually, ensure that you copy `/te
 
 ### Unit tests
 
-Configure the unit tests config before running the unit tests. The tests fire real API requests to a Mautic instance. 
+Configure the unit tests config before running the unit tests. The tests fire real API requests to a Mautic instance.
 
 1. Ensure you have set up your local environment using the steps above.
 2. Run `composer test` to run the tests.
